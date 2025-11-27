@@ -220,6 +220,7 @@ function getChordInfo(chordName) {
             intervalNames = ["R", "3", "5", "7"];
             break;
         case "m7(b5)":
+        case "m7b5":
             intervals = [0, 3, 6, 10]; // R, m3, dim5, m7
             intervalNames = ["R", "b3", "b5", "b7"];
             break;
