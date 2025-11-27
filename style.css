@@ -1,0 +1,1139 @@
+:root {
+    /* Color Palette */
+    --bg-color: #0f0f10;
+    --text-color: #e0e0e0;
+    --accent-amber: #ffb347;
+    --accent-purple: #b19cd9;
+    --gold-border: #c5a059;
+    --fretboard-bg: #1a1a1a;
+
+    /* Glow Effects */
+    --glow-amber: 0 0 10px rgba(255, 179, 71, 0.6), 0 0 20px rgba(255, 179, 71, 0.3);
+    --glow-purple: 0 0 10px rgba(177, 156, 217, 0.6), 0 0 20px rgba(177, 156, 217, 0.3);
+    --glow-gold: 0 0 8px rgba(197, 160, 89, 0.5);
+    --glow-text: 0 0 5px rgba(224, 224, 224, 0.2);
+
+    /* Fonts */
+    --font-title: 'Playfair Display', serif;
+    --font-mono: 'Roboto Mono', monospace;
+    --font-body: 'Inter', system-ui, sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-body);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.app-container {
+    width: 100%;
+    max-width: 1000px;
+}
+
+.app-title {
+    font-family: var(--font-title);
+    font-size: 2.5rem;
+    /* Smaller */
+    font-weight: 700;
+    color: var(--text-color);
+    text-shadow: var(--glow-text);
+    letter-spacing: 1px;
+}
+
+.app-title .subtitle {
+    display: block;
+    font-size: 1rem;
+    font-weight: 400;
+    font-style: italic;
+    opacity: 0.8;
+    margin-top: 0.2rem;
+    color: var(--gold-border);
+}
+
+/* Chord Display */
+.chord-display-area {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 1rem;
+    /* Compact */
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    position: relative;
+    overflow: hidden;
+}
+
+.current-chord .chord-name {
+    font-family: var(--font-mono);
+    font-size: 3rem;
+    /* Smaller */
+    font-weight: 700;
+    color: var(--text-color);
+    text-shadow: 0 0 15px rgba(224, 224, 224, 0.3);
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.chord-tones {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    font-family: var(--font-mono);
+    font-size: 1rem;
+}
+
+.tone-3rd {
+    color: var(--accent-amber);
+    text-shadow: var(--glow-amber);
+}
+
+.tone-7th {
+    color: var(--accent-purple);
+    text-shadow: var(--glow-purple);
+}
+
+.next-chord {
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+    opacity: 0.7;
+}
+
+.next-chord .chord-name-small {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    margin-left: 0.5rem;
+}
+
+/* Fretboard */
+.fretboard-container {
+    padding: 0.5rem 0;
+}
+
+.fretboard {
+    background-color: var(--fretboard-bg);
+    height: 160px;
+    /* Compact */
+    position: relative;
+    border-top: 4px solid #333;
+    /* Nut */
+    border-bottom: 4px solid #333;
+    box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.8);
+    border-radius: 4px;
+}
+
+/* Strings */
+.string {
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background: #444;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.string:nth-child(1) {
+    top: 10%;
+    height: 1px;
+}
+
+.string:nth-child(2) {
+    top: 26%;
+    height: 1px;
+}
+
+.string:nth-child(3) {
+    top: 42%;
+    height: 2px;
+}
+
+.string:nth-child(4) {
+    top: 58%;
+    height: 2px;
+}
+
+.string:nth-child(5) {
+    top: 74%;
+    height: 3px;
+}
+
+.string:nth-child(6) {
+    top: 90%;
+    height: 3px;
+}
+
+/* Frets */
+.fret {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background-color: var(--gold-border);
+    box-shadow: 0 0 4px rgba(197, 160, 89, 0.3);
+    opacity: 0.8;
+}
+
+/* Fret Numbers */
+.fret-number {
+    position: absolute;
+    bottom: 5px;
+    /* Position at the bottom of the fretboard */
+    transform: translateX(-50%);
+    color: var(--gold-border);
+    font-family: var(--font-title);
+    font-size: 1.2rem;
+    /* Large and stylish */
+    font-style: italic;
+    opacity: 0.8;
+    /* Increased visibility */
+    pointer-events: none;
+    z-index: 1;
+    /* Behind strings and markers */
+}
+
+/* Fret Dots */
+.fret-dot {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background-color: #333;
+    border-radius: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.8);
+}
+
+.fret-dot.double {
+    /* Position handled inline for top/bottom */
+    display: block;
+}
+
+/* Note Markers */
+.note-marker {
+    position: absolute;
+    width: 24px;
+    /* Smaller */
+    height: 24px;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 10px currentColor;
+    border: 2px solid rgba(255, 255, 255, 0.9);
+    z-index: 10;
+
+    /* Text centering */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #0f0f10;
+    /* Dark text on bright marker */
+}
+
+.note-marker.root {
+    background-color: #e0e0e0;
+    /* White/Grey for Root */
+    color: #0f0f10;
+    box-shadow: 0 0 10px rgba(224, 224, 224, 0.6);
+}
+
+.note-marker.tone-3rd {
+    background-color: var(--accent-amber);
+    color: #0f0f10;
+    box-shadow: var(--glow-amber);
+}
+
+.note-marker.tone-5th {
+    background-color: #888;
+    /* Neutral for 5th */
+    color: #0f0f10;
+    box-shadow: 0 0 10px rgba(136, 136, 136, 0.5);
+}
+
+.note-marker.tone-7th {
+    background-color: var(--accent-purple);
+    color: #0f0f10;
+    box-shadow: var(--glow-purple);
+}
+
+/* Controls */
+.controls-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+}
+
+.control-label {
+    font-family: var(--font-mono);
+    color: var(--gold-border);
+    font-size: 0.9rem;
+}
+
+.slider-gold {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 180px;
+    height: 4px;
+    background: #333;
+    border-radius: 2px;
+    outline: none;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.slider-gold::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--gold-border);
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(197, 160, 89, 0.5);
+    border: 2px solid #fff;
+}
+
+.slider-gold::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--gold-border);
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(197, 160, 89, 0.5);
+    border: 2px solid #fff;
+}
+
+.select-gold {
+    background: transparent;
+    border: 1px solid var(--gold-border);
+    color: var(--gold-border);
+    padding: 0.4rem;
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+}
+
+.select-gold option {
+    background: var(--bg-color);
+    color: var(--text-color);
+}
+
+.button-group {
+    display: flex;
+    gap: 1rem;
+}
+
+.btn-gold {
+    background: transparent;
+    border: 1px solid var(--gold-border);
+    color: var(--gold-border);
+    padding: 0.6rem 1.5rem;
+    font-family: var(--font-title);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-gold:hover {
+    box-shadow: inset 0 0 15px rgba(197, 160, 89, 0.3), 0 0 10px rgba(197, 160, 89, 0.4);
+    text-shadow: 0 0 5px rgba(197, 160, 89, 0.8);
+    color: #fff;
+    border-color: #e6cfa0;
+}
+
+.btn-gold:active {
+    transform: scale(0.98);
+}
+
+/* Chord Chart */
+.chart-container {
+    width: 100%;
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.chart-title {
+    font-family: var(--font-title);
+    color: var(--gold-border);
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    text-shadow: var(--glow-gold);
+}
+
+.chord-chart {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    /* 8 bars per row = 4 rows */
+    gap: 5px;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 0.5rem;
+    border-radius: 8px;
+    border: 1px solid rgba(197, 160, 89, 0.2);
+}
+
+.chord-bar {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 0.5rem 0.2rem;
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    color: #888;
+    position: relative;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    /* Clickable */
+}
+
+.chord-bar:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--gold-border);
+}
+
+.chord-bar .bar-num {
+    position: absolute;
+    top: 2px;
+    left: 4px;
+    font-size: 0.6rem;
+    opacity: 0.5;
+}
+
+.chord-bar .chord-text {
+    font-size: 0.85rem;
+    font-weight: 700;
+    white-space: nowrap;
+    /* Prevent wrapping */
+}
+
+.chord-bar.active {
+    background: rgba(255, 179, 71, 0.15);
+    border-color: var(--accent-amber);
+    color: var(--accent-amber);
+    box-shadow: 0 0 15px rgba(255, 179, 71, 0.2);
+    transform: scale(1.05);
+    z-index: 5;
+}
+
+.chord-bar.active .chord-text {
+    text-shadow: 0 0 10px rgba(255, 179, 71, 0.8);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .app-title {
+        font-size: 1.8rem;
+    }
+
+    .current-chord .chord-name {
+        font-size: 2.5rem;
+    }
+
+    .chord-tones {
+        flex-direction: column;
+        gap: 0.2rem;
+    }
+
+    .controls-area {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .btn-gold {
+        width: 100%;
+        max-width: 250px;
+    }
+
+    .chord-chart {
+        grid-template-columns: repeat(4, 1fr);
+        /* 4 cols on mobile */
+    }
+}
+
+/* Loop Controls */
+.loop-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.loop-inputs {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.input-gold-small {
+    background: transparent;
+    border: 1px solid var(--gold-border);
+    color: var(--gold-border);
+    padding: 0.3rem;
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    border-radius: 4px;
+    width: 50px;
+    text-align: center;
+    outline: none;
+}
+
+.separator {
+    color: var(--gold-border);
+    font-weight: bold;
+}
+
+.btn-gold-small {
+    background: transparent;
+    border: 1px solid var(--gold-border);
+    color: var(--gold-border);
+    padding: 0.4rem 0.8rem;
+    font-family: var(--font-title);
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: 4px;
+}
+
+.btn-gold-small:hover {
+    background: rgba(197, 160, 89, 0.1);
+    color: #fff;
+    border-color: #e6cfa0;
+}
+
+.btn-gold-small.loop-active {
+    background: var(--accent-amber);
+    color: #0f0f10;
+    border-color: var(--accent-amber);
+    box-shadow: 0 0 10px rgba(255, 179, 71, 0.5);
+    font-weight: 700;
+}
+
+/* Loop Range Visualization */
+
+.btn-gold {
+    background: transparent;
+    border: 1px solid var(--gold-border);
+    color: var(--gold-border);
+    padding: 0.6rem 1.5rem;
+    font-family: var(--font-title);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-gold:hover {
+    box-shadow: inset 0 0 15px rgba(197, 160, 89, 0.3), 0 0 10px rgba(197, 160, 89, 0.4);
+    text-shadow: 0 0 5px rgba(197, 160, 89, 0.8);
+    color: #fff;
+    border-color: #e6cfa0;
+}
+
+.btn-gold:active {
+    transform: scale(0.98);
+}
+
+/* Chord Chart */
+.chart-container {
+    width: 100%;
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.chart-title {
+    font-family: var(--font-title);
+    color: var(--gold-border);
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    text-shadow: var(--glow-gold);
+}
+
+.chord-chart {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    /* 8 bars per row = 4 rows */
+    gap: 5px;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 0.5rem;
+    border-radius: 8px;
+    border: 1px solid rgba(197, 160, 89, 0.2);
+}
+
+.chord-bar {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 0.5rem 0.2rem;
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    color: #888;
+    position: relative;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    /* Clickable */
+}
+
+.chord-bar:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--gold-border);
+}
+
+.chord-bar .bar-num {
+    position: absolute;
+    top: 2px;
+    left: 4px;
+    font-size: 0.6rem;
+    opacity: 0.5;
+}
+
+.chord-bar .chord-text {
+    font-size: 0.85rem;
+    font-weight: 700;
+    white-space: nowrap;
+    /* Prevent wrapping */
+}
+
+.chord-bar.active {
+    background: rgba(255, 179, 71, 0.15);
+    border-color: var(--accent-amber);
+    color: var(--accent-amber);
+    box-shadow: 0 0 15px rgba(255, 179, 71, 0.2);
+    transform: scale(1.05);
+    z-index: 5;
+}
+
+.chord-bar.active .chord-text {
+    text-shadow: 0 0 10px rgba(255, 179, 71, 0.8);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .app-title {
+        font-size: 1.8rem;
+    }
+
+    .current-chord .chord-name {
+        font-size: 2.5rem;
+    }
+
+    .chord-tones {
+        flex-direction: column;
+        gap: 0.2rem;
+    }
+
+    .controls-area {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .btn-gold {
+        width: 100%;
+        max-width: 250px;
+    }
+
+    .chord-chart {
+        grid-template-columns: repeat(4, 1fr);
+        /* 4 cols on mobile */
+    }
+}
+
+/* Loop Controls */
+.loop-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.loop-inputs {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.input-gold-small {
+    background: transparent;
+    border: 1px solid var(--gold-border);
+    color: var(--gold-border);
+    padding: 0.3rem;
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    border-radius: 4px;
+    width: 50px;
+    text-align: center;
+    outline: none;
+}
+
+.separator {
+    color: var(--gold-border);
+    font-weight: bold;
+}
+
+.btn-gold-small {
+    background: transparent;
+    border: 1px solid var(--gold-border);
+    color: var(--gold-border);
+    padding: 0.4rem 0.8rem;
+    font-family: var(--font-title);
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: 4px;
+}
+
+.btn-gold-small:hover {
+    background: rgba(197, 160, 89, 0.1);
+    color: #fff;
+    border-color: #e6cfa0;
+}
+
+.btn-gold-small.loop-active {
+    background: var(--accent-amber);
+    color: #0f0f10;
+    border-color: var(--accent-amber);
+    box-shadow: 0 0 10px rgba(255, 179, 71, 0.5);
+    font-weight: 700;
+}
+
+/* Loop Range Visualization */
+.chord-bar.in-loop-range {
+    border-color: rgba(255, 179, 71, 0.5);
+    background: rgba(255, 179, 71, 0.05);
+}
+
+.chord-bar.in-loop-range::after {
+    content: '';
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    width: 6px;
+    height: 6px;
+    background-color: var(--accent-amber);
+    border-radius: 50%;
+    opacity: 0.6;
+}
+
+/* Help Button */
+.btn-help {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: transparent;
+    border: 1px solid var(--gold-border);
+    color: var(--gold-border);
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.btn-help:hover {
+    background: var(--gold-border);
+    color: #0f0f10;
+    box-shadow: 0 0 10px rgba(197, 160, 89, 0.5);
+}
+
+/* Modal */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.modal-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.modal-content {
+    background: #1a1a1a;
+    width: 90%;
+    max-width: 800px;
+    height: 80%;
+    border: 1px solid var(--gold-border);
+
+    .chord-bar:hover {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: var(--gold-border);
+    }
+
+    .chord-bar .bar-num {
+        position: absolute;
+        top: 2px;
+        left: 4px;
+        font-size: 0.6rem;
+        opacity: 0.5;
+    }
+
+    .chord-bar .chord-text {
+        font-size: 0.85rem;
+        font-weight: 700;
+        white-space: nowrap;
+        /* Prevent wrapping */
+    }
+
+    .chord-bar.active {
+        background: rgba(255, 179, 71, 0.15);
+        border-color: var(--accent-amber);
+        color: var(--accent-amber);
+        box-shadow: 0 0 15px rgba(255, 179, 71, 0.2);
+        transform: scale(1.05);
+        z-index: 5;
+    }
+
+    .chord-bar.active .chord-text {
+        text-shadow: 0 0 10px rgba(255, 179, 71, 0.8);
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+        .app-title {
+            font-size: 1.8rem;
+        }
+
+        .current-chord .chord-name {
+            font-size: 2.5rem;
+        }
+
+        .chord-tones {
+            flex-direction: column;
+            gap: 0.2rem;
+        }
+
+        .controls-area {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .btn-gold {
+            width: 100%;
+            max-width: 250px;
+        }
+
+        .chord-chart {
+            grid-template-columns: repeat(4, 1fr);
+            /* 4 cols on mobile */
+        }
+    }
+
+    /* Loop Controls */
+    .loop-controls {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .loop-inputs {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .input-gold-small {
+        background: transparent;
+        border: 1px solid var(--gold-border);
+        color: var(--gold-border);
+        padding: 0.3rem;
+        font-family: var(--font-mono);
+        font-size: 0.9rem;
+        border-radius: 4px;
+        width: 50px;
+        text-align: center;
+        outline: none;
+    }
+
+    .separator {
+        color: var(--gold-border);
+        font-weight: bold;
+    }
+
+    .btn-gold-small {
+        background: transparent;
+        border: 1px solid var(--gold-border);
+        color: var(--gold-border);
+        padding: 0.4rem 0.8rem;
+        font-family: var(--font-title);
+        font-size: 0.8rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        border-radius: 4px;
+    }
+
+    .btn-gold-small:hover {
+        background: rgba(197, 160, 89, 0.1);
+        color: #fff;
+        border-color: #e6cfa0;
+    }
+
+    .btn-gold-small.loop-active {
+        background: var(--accent-amber);
+        color: #0f0f10;
+        border-color: var(--accent-amber);
+        box-shadow: 0 0 10px rgba(255, 179, 71, 0.5);
+        font-weight: 700;
+    }
+
+    /* Loop Range Visualization */
+    .chord-bar.in-loop-range {
+        border-color: rgba(255, 179, 71, 0.5);
+        background: rgba(255, 179, 71, 0.05);
+    }
+
+    .chord-bar.in-loop-range::after {
+        content: '';
+        position: absolute;
+        bottom: 2px;
+        right: 2px;
+        width: 6px;
+        height: 6px;
+        background-color: var(--accent-amber);
+        border-radius: 50%;
+        opacity: 0.6;
+    }
+
+    /* Help Button */
+    .btn-help {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: transparent;
+        border: 1px solid var(--gold-border);
+        color: var(--gold-border);
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        font-family: var(--font-mono);
+        font-size: 1rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+    }
+
+    .btn-help:hover {
+        background: var(--gold-border);
+        color: #0f0f10;
+        box-shadow: 0 0 10px rgba(197, 160, 89, 0.5);
+    }
+
+    /* Modal */
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        z-index: 1000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 1;
+        transition: opacity 0.3s ease;
+    }
+
+    .modal-overlay.hidden {
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .modal-content {
+        background: #1a1a1a;
+        width: 90%;
+        max-width: 800px;
+        height: 80%;
+        border: 1px solid var(--gold-border);
+        border-radius: 8px;
+        position: relative;
+        box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+    }
+
+    .modal-close {
+        position: absolute;
+        top: -15px;
+        right: -15px;
+        background: var(--gold-border);
+        color: #0f0f10;
+        border: none;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        font-size: 1.2rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        z-index: 1010;
+    }
+
+    .modal-close:hover {
+        background: #fff;
+    }
+
+    .modal-iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+        border-radius: 8px;
+    }
+
+    /* Song Search Modal Styles */
+    .song-search-container {
+        padding: 2rem;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .song-search-header {
+        text-align: center;
+    }
+
+    .song-search-title {
+        font-family: var(--font-title);
+        color: var(--gold-border);
+        font-size: 1.8rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .search-box-wrapper {
+        position: relative;
+        width: 100%;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+
+    .search-input {
+        width: 100%;
+        padding: 0.8rem 1.2rem;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--gold-border);
+        border-radius: 30px;
+        color: var(--text-color);
+        font-family: var(--font-mono);
+        font-size: 1rem;
+        outline: none;
+        transition: all 0.3s ease;
+    }
+
+    .search-input:focus {
+        background: rgba(255, 255, 255, 0.1);
+        box-shadow: 0 0 15px rgba(197, 160, 89, 0.3);
+    }
+
+    .song-list-container {
+        flex: 1;
+        overflow-y: auto;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        padding: 0.5rem;
+        background: rgba(0, 0, 0, 0.2);
+    }
+
+    /* Custom Scrollbar */
+    .song-list-container::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .song-list-container::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.3);
+    }
+
+    .song-list-container::-webkit-scrollbar-thumb {
+        background: var(--gold-border);
+        border-radius: 4px;
+    }
+
+    .song-item {
+        padding: 0.8rem 1rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .song-item:last-child {
+        border-bottom: none;
+    }
+
+    .song-item:hover {
+        background: rgba(197, 160, 89, 0.1);
+        padding-left: 1.5rem;
+    }
+
+    .song-item-title {
+        font-family: var(--font-body);
+        font-weight: 500;
+        font-size: 1.1rem;
+        color: var(--text-color);
+    }
+
+    .song-item-meta {
+        font-family: var(--font-mono);
+        font-size: 0.8rem;
+        color: #888;
+    }
+
+    .song-item:hover .song-item-title {
+        color: var(--gold-border);
+    }
