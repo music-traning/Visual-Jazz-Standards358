@@ -1077,3 +1077,288 @@ body {
     color: #fff;
     text-shadow: var(--glow-amber);
 }
+
+/* =========================================
+   Base & Reset
+   ========================================= */
+:root {
+    --gold-color: #d4af37; /* クラス名から推測されるテーマカラー */
+    --bg-color: #1a1a1a;
+    --text-color: #f0f0f0;
+    --header-height: 60px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto Mono', monospace;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+/* =========================================
+   Layout Container
+   ========================================= */
+.app-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* =========================================
+   Header
+   ========================================= */
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+    border-bottom: 1px solid #333;
+}
+
+.app-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    margin: 0;
+}
+
+.app-title .subtitle {
+    font-size: 0.8rem;
+    color: var(--gold-color);
+    display: block; /* スマホでは改行させる */
+}
+
+/* =========================================
+   Chord Display Area
+   ========================================= */
+.chord-display-area {
+    background: #222;
+    padding: 1.5rem;
+    margin: 1rem 0;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #444;
+}
+
+.current-chord {
+    text-align: center;
+}
+
+.chord-name {
+    font-size: 3rem; /* デスクトップ用サイズ */
+    font-weight: 700;
+    color: var(--gold-color);
+    line-height: 1;
+}
+
+.chord-tones {
+    font-size: 0.9rem;
+    color: #aaa;
+    margin-top: 0.5rem;
+}
+
+.tone {
+    margin: 0 5px;
+    display: inline-block;
+}
+
+.next-chord {
+    text-align: right;
+    opacity: 0.7;
+}
+
+.next-chord .label {
+    display: block;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+}
+
+.chord-name-small {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+/* =========================================
+   Fretboard (Responsive Magic)
+   ========================================= */
+.fretboard-container {
+    width: 100%;
+    margin-bottom: 2rem;
+    /* 重要: スマホで指板が潰れないようにスクロールさせる */
+    overflow-x: auto; 
+    -webkit-overflow-scrolling: touch;
+    background: #000;
+    padding: 10px 0;
+    border-radius: 4px;
+}
+
+.fretboard {
+    position: relative;
+    /* 最小幅を設定して、スマホでもフレット間隔を確保 */
+    min-width: 800px; 
+    height: 200px; /* 文字列数に応じて調整 */
+    margin: 0 auto;
+    background-image: linear-gradient(to bottom, #2a2a2a, #1a1a1a);
+}
+
+/* 弦とフレットのスタイル（既存維持または以下を適用） */
+.string {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #666;
+    /* 6弦分の配置ロジックはJSまたは個別のtop指定で */
+}
+/* stringの配置例: JSでやるかCSSでやるかによりますが、一応CSSで均等配置する場合 */
+.string:nth-child(1) { top: 16.6%; }
+.string:nth-child(2) { top: 30%; }
+.string:nth-child(3) { top: 43.3%; }
+.string:nth-child(4) { top: 56.6%; }
+.string:nth-child(5) { top: 70%; }
+.string:nth-child(6) { top: 83.3%; }
+
+.fret {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #555;
+    /* leftはHTMLのインラインスタイルを使用 */
+}
+
+/* =========================================
+   Controls Area (Grid Layout)
+   ========================================= */
+.controls-area {
+    display: grid;
+    /* 画面幅に応じてカラム数を自動調整する魔法のGrid設定 */
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1rem;
+    background: #252525;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.loop-controls {
+    /* ループ設定は横幅を取るので2カラム分使う（スペースがあれば） */
+    grid-column: span 2; 
+}
+@media (max-width: 600px) {
+    .loop-controls { grid-column: span 1; }
+}
+
+.control-label {
+    font-size: 0.8rem;
+    margin-bottom: 0.5rem;
+    color: #ccc;
+}
+
+/* ボタン群の配置 */
+.button-group {
+    grid-column: 1 / -1; /* 全幅を使う */
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.btn-gold, .select-gold, .input-gold-small {
+    /* タッチデバイス用に高さを確保 */
+    min-height: 44px; 
+    border: 1px solid var(--gold-color);
+    background: transparent;
+    color: var(--gold-color);
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: inherit;
+}
+.btn-gold:hover {
+    background: var(--gold-color);
+    color: #000;
+}
+
+/* =========================================
+   Chart Container
+   ========================================= */
+.chord-chart {
+    display: grid;
+    /* デスクトップは4小節区切り */
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 10px;
+}
+
+.chart-bar {
+    /* JSで注入される要素と仮定 */
+    background: #333;
+    padding: 10px;
+    text-align: center;
+    border-radius: 4px;
+}
+
+/* =========================================
+   Media Queries (Responsive Breakpoints)
+   ========================================= */
+
+/* タブレット以下 (768px未満) */
+@media (max-width: 768px) {
+    .app-title { font-size: 1.2rem; }
+    .chord-name { font-size: 2.5rem; }
+    
+    .chord-chart {
+        /* タブレットは2小節区切りが見やすい */
+        grid-template-columns: repeat(2, 1fr); 
+    }
+}
+
+/* スマホ (480px未満) */
+@media (max-width: 480px) {
+    .app-title .subtitle { display: inline; margin-left: 10px; }
+    
+    .chord-display-area {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+    
+    .next-chord {
+        text-align: center;
+        width: 100%;
+        border-top: 1px solid #333;
+        padding-top: 0.5rem;
+    }
+
+    .controls-area {
+        /* スマホでは1列でもOKだが、Grid設定(minmax)が効くのでそのままでOK */
+        padding: 1rem;
+    }
+    
+    .button-group {
+        flex-direction: column; /* ボタンを縦積みに */
+        width: 100%;
+    }
+    .btn-gold { width: 100%; }
+
+    .chord-chart {
+        /* スマホは1行1小節にするか、2小節のまま文字を小さくするか */
+        grid-template-columns: repeat(2, 1fr); 
+        gap: 5px;
+    }
+}
